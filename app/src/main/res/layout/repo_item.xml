@@ -5,7 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin"
     app:cardCornerRadius="@dimen/cardview_default_radius"
     app:cardElevation="@dimen/cardview_default_elevation"
     tools:context=".view.ui.activities.MainActivity_">
@@ -16,48 +19,35 @@
         android:padding="@dimen/activity_vertical_margin"
         android:orientation="vertical">
 
-        <GridLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:rowCount="2"
-            android:columnCount="2">
+            android:text="@string/text"/>
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_rowSpan="2"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:text="GitHub"/>
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="@string/text"/>
 
-            <TextView
-                android:id="@+id/id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginBottom="5dp"
-                android:textSize="20sp"
-                android:text="id 12873612879"/>
-
-            <TextView
-                android:id="@+id/language"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:textSize="20sp"
-                android:textStyle="italic"
-                android:text="Java"/>
-
-        </GridLayout>
+        <TextView
+            android:id="@+id/language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textStyle="italic"
+            android:text="@string/text"/>
 
         <TextView
             android:id="@+id/url"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="http://realt.by/thumb/c/224x224/083111ac50ccd60b189cb08bf29ec38a/rc/l/site1oan2lrc/7161e260a5.jpg"/>
+            android:text="@string/text"/>
 
     </LinearLayout>
 

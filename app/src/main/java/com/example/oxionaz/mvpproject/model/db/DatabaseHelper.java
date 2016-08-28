@@ -11,10 +11,11 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class DatabaseHelper {
+public class DatabaseHelper implements Database {
 
     private static final String LOG_ERROR = "FlowManager";
 
+    @Override
     public void saveRepoToDB(List<Info> repos){
         if (repos != null && !repos.isEmpty()) {
             clearRepoTable();
@@ -30,12 +31,14 @@ public class DatabaseHelper {
         }
     }
 
+    @Override
     public Observable<List<Info>> getRepoFromDB(){
         return Observable.just(SQLite.select().from(Info.class).queryList())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
 
+    @Override
     public void clearRepoTable(){
         SQLite.delete(Info.class).execute();
     }

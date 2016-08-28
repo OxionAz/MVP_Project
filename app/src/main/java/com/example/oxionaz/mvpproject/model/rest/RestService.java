@@ -6,10 +6,11 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class RestService {
+public class RestService implements Rest {
 
     private RestClient restClient = new RestClient();
 
+    @Override
     public Observable<List<Repo>> downloadListRepo(String user){
         return restClient.getGitHubAPI().getListRepo(user)
                 .observeOn(AndroidSchedulers.mainThread())
