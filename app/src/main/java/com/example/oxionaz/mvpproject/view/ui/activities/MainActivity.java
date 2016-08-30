@@ -1,5 +1,6 @@
 package com.example.oxionaz.mvpproject.view.ui.activities;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,14 +12,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.oxionaz.mvpproject.EventBus;
-import com.example.oxionaz.mvpproject.model.db.models.Info;
+import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
 import com.example.oxionaz.mvpproject.presenter.RepoListPresenter;
 import com.example.oxionaz.mvpproject.R;
 import com.example.oxionaz.mvpproject.view.ui.adapters.RepoAdapter;
-
-import org.androidannotations.annotations.AfterExtras;
-import org.androidannotations.annotations.AfterInject;
-import org.androidannotations.annotations.AfterPreferences;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -72,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements
         login_field.setVisibility(View.VISIBLE);
         confirm_button.setVisibility(View.VISIBLE);
         repo_list.setVisibility(View.GONE);
+        setTitle(this.getString(R.string.app_name));
     }
 
     @Click
@@ -88,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showList(List<Info> repoList) {
+    public void showList(List<Repository> repoList) {
         if (option_change != null)
         option_change.setVisible(true);
         error_text.setVisibility(View.GONE);
@@ -96,8 +94,9 @@ public class MainActivity extends AppCompatActivity implements
         login_field.setVisibility(View.GONE);
         confirm_button.setVisibility(View.GONE);
         repo_list.setVisibility(View.VISIBLE);
-        RepoAdapter repoAdapter = new RepoAdapter(repoList);
+        RepoAdapter repoAdapter = new RepoAdapter(repoList, this::makeSnackbar);
         repo_list.setAdapter(repoAdapter);
+        setTitle(repoList.get(0).getOwner());
     }
 
     @Override
@@ -115,5 +114,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onDBError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
+    public void makeSnackbar(int position){
+        Snackbar.make(repo_list, String.valueOf(position), Snackbar.LENGTH_SHORT).show();
     }
 }

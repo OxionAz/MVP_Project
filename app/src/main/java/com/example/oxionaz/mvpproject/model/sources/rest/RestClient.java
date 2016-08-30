@@ -1,7 +1,6 @@
-package com.example.oxionaz.mvpproject.model.rest;
+package com.example.oxionaz.mvpproject.model.sources.rest;
 
-import com.example.oxionaz.mvpproject.model.rest.api.GitHubAPI;
-
+import com.example.oxionaz.mvpproject.model.sources.rest.api.GitHubAPI;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -10,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient {
 
+    private static final String BASE_URL = "https://api.github.com/";
     private Retrofit retrofit;
 
     public RestClient(){
@@ -19,7 +19,7 @@ public class RestClient {
         retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://api.github.com/")
+                .baseUrl(BASE_URL)
                 .client(httpClient.build())
                 .build();
     }

@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">MVP Project</string>
     <string name="text">Text</string>
-    <string name="Info_text">Enter your login\nto see list of repositories</string>
+    <string name="base_url">https://api.github.com/</string>
+    <string name="Info_text">Enter your owner\nto see list of repositories</string>
     <string name="request_button">Make request</string>
     <string name="error_text">We can`t to get list of repositories.\nTry again please</string>
+    <string name="standart_user">andrey7mel</string>
 </resources>

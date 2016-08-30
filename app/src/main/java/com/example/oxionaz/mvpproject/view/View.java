@@ -1,9 +1,10 @@
 package com.example.oxionaz.mvpproject.view;
 
-import com.example.oxionaz.mvpproject.model.db.models.Info;
+import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
+
 import java.util.List;
 
 public interface View {
-    void showList(List<Info> RepoList);
+    void showList(List<Repository> RepoList);
     String getUserName();
 }

@@ -19,13 +19,13 @@ public class RepoListPresenter implements Presenter {
 
     @Override
     public void clearData() {
-        dataManager.clearData();
+        dataManager.clearRepositoryCash();
     }
 
     @Override
     public void tryGetDataFromDB() {
         checkSubscription();
-        subscription = dataManager.getListRepoFromDB()
+        subscription = dataManager.getRepositoriesFromCash()
                 .subscribe(infos -> {
                     if (infos != null && !infos.isEmpty()) {
                         view.showList(infos);
@@ -36,7 +36,7 @@ public class RepoListPresenter implements Presenter {
     @Override
     public void onSearchClick() {
         checkSubscription();
-        subscription = dataManager.downloadListRepo(view.getUserName())
+        subscription = dataManager.downloadRepositories(view.getUserName())
                 .subscribe(infos -> {
                     if (infos != null && !infos.isEmpty()) {
                         view.showList(infos);

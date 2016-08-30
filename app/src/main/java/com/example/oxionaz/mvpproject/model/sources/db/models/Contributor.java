@@ -1,10 +1,25 @@
-package com.example.oxionaz.mvpproject.model.rest.models;
+package com.example.oxionaz.mvpproject.model.sources.db.models;
 
-public class Owner {
+import com.example.oxionaz.mvpproject.model.sources.db.AppDatabase;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
+@Table(database = AppDatabase.class)
+public class Contributor extends BaseModel {
+
+    @Column
+    @PrimaryKey
     private int id;
+
+    @Column
     private String login;
+
+    @Column
     private String avatar_url;
+
+    @Column
     private String html_url;
 
     public int getId() {

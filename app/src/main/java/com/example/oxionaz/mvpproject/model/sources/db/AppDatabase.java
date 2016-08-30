@@ -1,4 +1,4 @@
-package com.example.oxionaz.mvpproject.model.db;
+package com.example.oxionaz.mvpproject.model.sources.db;
 
 import com.raizlabs.android.dbflow.annotation.Database;
 

@@ -1,13 +1,13 @@
-package com.example.oxionaz.mvpproject.model.db.models;
+package com.example.oxionaz.mvpproject.model.sources.db.models;
 
-import com.example.oxionaz.mvpproject.model.db.AppDatabase;
+import com.example.oxionaz.mvpproject.model.sources.db.AppDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 @Table(database = AppDatabase.class)
-public class Info extends BaseModel {
+public class Repository extends BaseModel {
 
     @Column
     @PrimaryKey
@@ -17,13 +17,13 @@ public class Info extends BaseModel {
     private String name;
 
     @Column
-    private String html_url;
+    private String owner;
 
     @Column
     private String language;
 
     @Column
-    private String login;
+    private String html_url;
 
     public int getId() {
         return id;
@@ -57,11 +57,11 @@ public class Info extends BaseModel {
         this.language = language;
     }
 
-    public String getLogin() {
-        return login;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }
