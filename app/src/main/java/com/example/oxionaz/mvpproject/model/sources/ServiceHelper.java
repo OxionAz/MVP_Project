@@ -16,7 +16,7 @@ public abstract class ServiceHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Observable.Transformer<T, T> applySchedulers() {
+    protected <T> Observable.Transformer<T, T> applySchedulers() {
         return (Observable.Transformer<T, T>) schedulersTransformer;
     }
 

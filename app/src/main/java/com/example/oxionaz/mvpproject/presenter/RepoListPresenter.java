@@ -1,57 +1,74 @@
 package com.example.oxionaz.mvpproject.presenter;
 
+import android.os.Bundle;
+import android.os.Parcelable;
+
 import com.example.oxionaz.mvpproject.EventBus;
-import com.example.oxionaz.mvpproject.model.DataManager;
-import com.example.oxionaz.mvpproject.view.View;
+import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
+import com.example.oxionaz.mvpproject.view.ui.fragments.RepoListFragmentView;
+import com.raizlabs.android.dbflow.structure.Model;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import rx.Subscription;
-import rx.subscriptions.Subscriptions;
 
-public class RepoListPresenter implements Presenter {
+public class RepoListPresenter extends BasePresenter {
 
-    private Subscription subscription = Subscriptions.empty();
-    private DataManager dataManager;
-    private View view;
+    private static final String BUNDLE_REPO_LIST_KEY = "BUNDLE_REPO_LIST_KEY";
+    private RepoListFragmentView view;
+    private List<Repository> repoList;
 
-    public RepoListPresenter(View view, EventBus eventBus){
+    public RepoListPresenter(RepoListFragmentView view, EventBus eventBus){
+        super(eventBus);
         this.view = view;
-        this.dataManager = new DataManager(eventBus);
     }
 
-    @Override
-    public void clearData() {
+    // Operations with Repo data
+
+    public void clearRepoCash() {
         dataManager.clearRepositoryCash();
     }
 
-    @Override
-    public void tryGetDataFromDB() {
-        checkSubscription();
-        subscription = dataManager.getRepositoriesFromCash()
-                .subscribe(infos -> {
-                    if (infos != null && !infos.isEmpty()) {
-                        view.showList(infos);
+    public void getRepoFromCash() {
+        Subscription subscription = dataManager.getRepositoriesFromCash()
+                .subscribe(repositories -> {
+                    if (checkList(repositories)) {
+                        view.showRepoList(repositories);
                     }
                 });
+        addSubscription(subscription);
     }
 
-    @Override
     public void onSearchClick() {
-        checkSubscription();
-        subscription = dataManager.downloadRepositories(view.getUserName())
-                .subscribe(infos -> {
-                    if (infos != null && !infos.isEmpty()) {
-                        view.showList(infos);
+        Subscription subscription = dataManager.downloadRepositories(view.getUserName())
+                .subscribe(repositories -> {
+                    if (checkList(repositories)) {
+                        view.showRepoList(repositories);
                     }
                 });
+        addSubscription(subscription);
     }
 
-    @Override
-    public void onStop() {
-        checkSubscription();
-    }
+    // Saving instance state
 
-    private void checkSubscription(){
-        if (!subscription.isUnsubscribed()){
-            subscription.unsubscribe();
+    public void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            repoList = (List<Repository>) savedInstanceState.getSerializable(BUNDLE_REPO_LIST_KEY);
+        }
+        if (checkList(repoList)) {
+            view.showRepoList(repoList);
         }
     }
+
+    public void onSaveInstanceState(Bundle outState){
+        outState.putSerializable(BUNDLE_REPO_LIST_KEY, new ArrayList<>(repoList));
+    }
+
+    // Check data for exists
+
+    private static <T extends Model> boolean checkList(List<T> data){
+        return data != null && !data.isEmpty();
+    }
+
 }

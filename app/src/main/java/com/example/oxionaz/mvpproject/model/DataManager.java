@@ -7,11 +7,9 @@ import com.example.oxionaz.mvpproject.model.sources.db.models.Branch;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Contributor;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
 import com.example.oxionaz.mvpproject.model.sources.rest.RestService;
-import com.example.oxionaz.mvpproject.model.sources.rest.models.BranchDTO;
 
 import java.util.List;
 import rx.Observable;
-import rx.functions.Func1;
 
 public class DataManager implements Model {
 
@@ -63,19 +61,19 @@ public class DataManager implements Model {
     @Override
     public Observable<List<Repository>> getRepositoriesFromCash() {
         return databaseHelper.getRepositories()
-                .doOnError(throwable -> eventBus.onDBError(throwable.getMessage()));
+                .doOnError(throwable -> eventBus.onCashError(throwable.getMessage()));
     }
 
     @Override
     public Observable<List<Branch>> getBranchesFromCash() {
         return databaseHelper.getBranches()
-                .doOnError(throwable -> eventBus.onDBError(throwable.getMessage()));
+                .doOnError(throwable -> eventBus.onCashError(throwable.getMessage()));
     }
 
     @Override
     public Observable<List<Contributor>> getContributorsFromCash() {
         return databaseHelper.getContributors()
-                .doOnError(throwable -> eventBus.onDBError(throwable.getMessage()));
+                .doOnError(throwable -> eventBus.onCashError(throwable.getMessage()));
     }
 
     // Clear cash

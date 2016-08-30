@@ -15,6 +15,7 @@ import com.example.oxionaz.mvpproject.EventBus;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
 import com.example.oxionaz.mvpproject.presenter.RepoListPresenter;
 import com.example.oxionaz.mvpproject.R;
+import com.example.oxionaz.mvpproject.view.ui.fragments.RepoListFragmentView;
 import com.example.oxionaz.mvpproject.view.ui.adapters.RepoAdapter;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -28,7 +29,7 @@ import java.util.List;
 @EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.toolbar_menu)
 public class MainActivity extends AppCompatActivity implements
-        com.example.oxionaz.mvpproject.view.View, EventBus {
+        RepoListFragmentView, EventBus {
 
     private RepoListPresenter repoListPresenter = new RepoListPresenter(this, this);
 
@@ -57,13 +58,13 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        repoListPresenter.tryGetDataFromDB();
+        repoListPresenter.getRepoFromCash();
         return super.onCreateOptionsMenu(menu);
     }
 
     @OptionsItem
     void option_change(){
-        repoListPresenter.clearData();
+        repoListPresenter.clearRepoCash();
         option_change.setVisible(false);
         info_text.setVisibility(View.VISIBLE);
         login_field.setVisibility(View.VISIBLE);
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showList(List<Repository> repoList) {
+    public void showRepoList(List<Repository> repoList) {
         if (option_change != null)
         option_change.setVisible(true);
         error_text.setVisibility(View.GONE);
@@ -97,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements
         RepoAdapter repoAdapter = new RepoAdapter(repoList, this::makeSnackbar);
         repo_list.setAdapter(repoAdapter);
         setTitle(repoList.get(0).getOwner());
+    }
+
+    @Override
+    public void startRepoInfoFragment(Repository repo) {
+
     }
 
     @Override
@@ -112,11 +118,21 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onDBError(String error) {
+    public void onCashError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
     }
 
     public void makeSnackbar(int position){
         Snackbar.make(repo_list, String.valueOf(position), Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
     }
 }
