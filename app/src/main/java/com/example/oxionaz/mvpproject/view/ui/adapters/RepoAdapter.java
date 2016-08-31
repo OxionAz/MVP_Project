@@ -10,44 +10,40 @@ import com.example.oxionaz.mvpproject.R;
 
 import java.util.List;
 
-public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
+public class RepoAdapter extends BaseAdapter<Repository, RepoAdapter.ViewHolder> {
 
-    private List<Repository> repoList;
     private ViewHolder.ClickListener clickListener;
 
     public RepoAdapter(List<Repository> repoList, ViewHolder.ClickListener clickListener){
-        this.repoList = repoList;
+        super(repoList);
         this.clickListener = clickListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.repo_item, parent, false);
-        return new ViewHolder(item, clickListener);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.repo_item, parent, false);
+        return new ViewHolder(view, clickListener, data);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Repository item = repoList.get(position);
+        Repository item = data.get(position);
         holder.id.setText(String.valueOf(item.getId()));
         holder.name.setText(item.getName());
         holder.lang.setText(item.getLanguage());
         holder.url.setText(item.getHtml_url());
     }
 
-    @Override
-    public int getItemCount() {
-        return repoList.size();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    protected static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         protected TextView id, name, lang, url;
         private ClickListener clickListener;
+        private List<Repository> data;
 
-        public ViewHolder(View itemView, ClickListener clickListener){
+        public ViewHolder(View itemView, ClickListener clickListener, List<Repository> repoList){
             super(itemView);
             this.clickListener = clickListener;
+            this.data = repoList;
             itemView.setOnClickListener(this);
             id = (TextView) itemView.findViewById(R.id.id);
             name = (TextView) itemView.findViewById(R.id.name);
@@ -57,11 +53,11 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-            clickListener.onItemClick(getAdapterPosition());
+            clickListener.onItemClick(data.get(getAdapterPosition()));
         }
 
         public interface ClickListener{
-            void onItemClick(int position);
+            void onItemClick(Repository repository);
         }
     }
 }
