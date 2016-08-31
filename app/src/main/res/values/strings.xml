@@ -6,4 +6,6 @@
     <string name="request_button">Make request</string>
     <string name="error_text">We can`t to get list of repositories.\nTry again please</string>
     <string name="standart_user">andrey7mel</string>
+    <string name="branches">Branches:</string>
+    <string name="contributors">Contributors:</string>
 </resources>

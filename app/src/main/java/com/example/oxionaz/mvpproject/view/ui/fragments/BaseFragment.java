@@ -5,8 +5,7 @@ import com.example.oxionaz.mvpproject.presenter.BasePresenter;
 
 public abstract class BaseFragment extends Fragment {
 
-    protected abstract BasePresenter getPresenter();
-
+    // Clear all subscriptions if fragment stop
     @Override
     public void onStop() {
         super.onStop();
@@ -14,5 +13,8 @@ public abstract class BaseFragment extends Fragment {
             getPresenter().onStop();
         }
     }
+
+    // Get BasePresenter for call method
+    protected abstract BasePresenter getPresenter();
 
 }

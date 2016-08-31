@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.oxionaz.mvpproject.EventBus;
 import com.example.oxionaz.mvpproject.R;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Branch;
@@ -28,8 +30,7 @@ import java.util.List;
 @EFragment(R.layout.fragment_repo_info)
 public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentView, EventBus {
 
-    private static final String BUNDLE_REPO_KEY = "BUNDLE_REPO_KEY";
-    private RepoInfoPresenter repoInfoPresenter;
+    private RepoInfoPresenter repoInfoPresenter = new RepoInfoPresenter(this, this);
 
     @ViewById
     TextView name;
@@ -37,42 +38,31 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
     @ViewById
     RecyclerView branches, contributors;
 
-    @AfterViews
-    void ready(){
-        repoInfoPresenter = new RepoInfoPresenter(this, getRepositoryVO(), this);
-        branches.setHasFixedSize(true);
-        contributors.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        branches.setLayoutManager(linearLayoutManager);
-        contributors.setLayoutManager(linearLayoutManager);
-        getActivity().setTitle(getRepositoryVO().getOwner());
-        name.setText(getRepositoryVO().getName());
-    }
-
     public static RepoInfoFragment newInstance(Repository repository) {
         RepoInfoFragment myFragment = new RepoInfoFragment_();
         Bundle args = new Bundle();
-        args.putSerializable(BUNDLE_REPO_KEY, (Serializable) repository);
+        args.putString("owner", repository.getOwner());
+        args.putString("name", repository.getName());
         myFragment.setArguments(args);
         return myFragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        repoInfoPresenter.onCreate(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null)
+            repoInfoPresenter.downloadInfo(
+                    getArguments().getString("owner"), getArguments().getString("name"));
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        repoInfoPresenter.onSaveInstanceState(outState);
-    }
-
-    private Repository getRepositoryVO() {
-        return (Repository) getArguments().getSerializable(BUNDLE_REPO_KEY);
+    @AfterViews
+    void ready(){
+        branches.setHasFixedSize(true);
+        contributors.setHasFixedSize(true);
+        branches.setLayoutManager(new LinearLayoutManager(getContext()));
+        contributors.setLayoutManager(new LinearLayoutManager(getContext()));
+        getActivity().setTitle(getArguments().getString("owner"));
+        name.setText(getArguments().getString("name"));
     }
 
     @Override
@@ -88,6 +78,21 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
     }
 
     @Override
+    public void onDownloadError(String error) {
+        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCashError(String error) {
+        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return repoInfoPresenter;
+    }
+
+    @Override
     public void showLoading() {
 
     }
@@ -97,18 +102,4 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
 
     }
 
-    @Override
-    protected BasePresenter getPresenter() {
-        return repoInfoPresenter;
-    }
-
-    @Override
-    public void onDownloadError(String error) {
-
-    }
-
-    @Override
-    public void onCashError(String error) {
-
-    }
 }

@@ -10,15 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/activity_horizontal_margin"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/white"
         android:textStyle="bold"
         android:textSize="24sp"
         android:text="@string/text"/>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
 
         <include layout="@layout/repo_info"/>
 

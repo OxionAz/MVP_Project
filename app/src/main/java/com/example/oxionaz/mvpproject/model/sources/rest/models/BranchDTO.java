@@ -8,7 +8,7 @@ public class BranchDTO {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("commitDTO")
+    @SerializedName("commit")
     @Expose
     private CommitDTO commitDTO;
 

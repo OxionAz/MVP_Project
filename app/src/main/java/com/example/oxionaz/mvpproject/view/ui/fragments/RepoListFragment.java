@@ -1,22 +1,15 @@
 package com.example.oxionaz.mvpproject.view.ui.fragments;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.oxionaz.mvpproject.EventBus;
 import com.example.oxionaz.mvpproject.R;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
@@ -24,7 +17,6 @@ import com.example.oxionaz.mvpproject.presenter.BasePresenter;
 import com.example.oxionaz.mvpproject.presenter.RepoListPresenter;
 import com.example.oxionaz.mvpproject.view.ui.activities.ActivityCallback;
 import com.example.oxionaz.mvpproject.view.ui.adapters.RepoAdapter;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -32,7 +24,6 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
-
 import java.util.List;
 
 @EFragment(R.layout.fragment_repo_list)
@@ -57,39 +48,13 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
     @OptionsMenuItem
     MenuItem option_change;
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            activityCallback = (ActivityCallback) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement activityCallback");
-        }
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        repoListPresenter.onCreate(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        repoListPresenter.onSaveInstanceState(outState);
-    }
-
     @AfterViews
     void ready(){
         repo_list.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         repo_list.setLayoutManager(linearLayoutManager);
+        activityCallback = (ActivityCallback) getActivity();
     }
 
     @Override
@@ -151,8 +116,9 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
 
-    public void makeSnackbar(int position){
-        Snackbar.make(repo_list, String.valueOf(position), Snackbar.LENGTH_SHORT).show();
+    @Override
+    protected BasePresenter getPresenter() {
+        return repoListPresenter;
     }
 
     @Override
@@ -165,8 +131,4 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
 
     }
 
-    @Override
-    protected BasePresenter getPresenter() {
-        return repoListPresenter;
-    }
 }

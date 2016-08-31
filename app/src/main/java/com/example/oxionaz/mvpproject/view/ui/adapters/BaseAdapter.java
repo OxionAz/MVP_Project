@@ -16,13 +16,13 @@ public abstract class BaseAdapter
         this.data = data;
     }
 
-    protected List<T> getData(){
-        return data;
-    }
-
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    protected List<T> getData(){
+        return data;
     }
 
 }
