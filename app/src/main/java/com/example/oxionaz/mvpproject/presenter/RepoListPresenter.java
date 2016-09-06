@@ -30,10 +30,13 @@ public class RepoListPresenter extends BasePresenter {
     }
 
     public void onSearchClick() {
+        view.showLoading(true);
+
         Subscription subscription = dataManager.downloadRepositories(view.getUserName())
                 .subscribe(repositories -> {
                     if (checkList(repositories)) {
                         view.showRepoList(repositories);
+                        view.showLoading(false);
                     }
                 });
         addSubscription(subscription);

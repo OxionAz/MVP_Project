@@ -53,6 +53,7 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
         if (savedInstanceState == null)
             repoInfoPresenter.downloadInfo(
                     getArguments().getString("owner"), getArguments().getString("name"));
+        else repoInfoPresenter.getInfoFromCash();
     }
 
     @AfterViews
@@ -88,18 +89,13 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
     }
 
     @Override
+    public void showLoading(boolean show) {
+
+    }
+
+    @Override
     protected BasePresenter getPresenter() {
         return repoInfoPresenter;
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
     }
 
 }
