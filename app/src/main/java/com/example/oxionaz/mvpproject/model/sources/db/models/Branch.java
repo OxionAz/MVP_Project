@@ -19,7 +19,6 @@ public class Branch extends BaseModel {
     @Column
     private String url;
 
-
     public String getSha() {
         return sha;
     }

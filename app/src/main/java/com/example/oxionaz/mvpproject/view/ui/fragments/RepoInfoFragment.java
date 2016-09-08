@@ -48,12 +48,15 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState == null)
-            repoInfoPresenter.downloadInfo(
-                    getArguments().getString("owner"), getArguments().getString("name"));
-        else repoInfoPresenter.getInfoFromCash();
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        repoInfoPresenter.onCreate(savedInstanceState, getArguments().getString("owner"), getArguments().getString("name"));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        repoInfoPresenter.onSaveInstanceState(outState);
     }
 
     @AfterViews
