@@ -1,6 +1,6 @@
 package com.example.oxionaz.mvpproject.presenter;
 
-import com.example.oxionaz.mvpproject.EventBus;
+import com.example.oxionaz.mvpproject.util.EventBus;
 import com.example.oxionaz.mvpproject.view.ui.fragments.RepoListFragmentView;
 import rx.Subscription;
 
@@ -8,8 +8,8 @@ public class RepoListPresenter extends BasePresenter {
 
     private RepoListFragmentView view;
 
-    public RepoListPresenter(RepoListFragmentView view, EventBus eventBus){
-        super(eventBus);
+    public void onCreate(RepoListFragmentView view, EventBus eventBus){
+        dataManager.onCreate(eventBus);
         this.view = view;
     }
 

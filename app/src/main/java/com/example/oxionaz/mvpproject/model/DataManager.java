@@ -1,6 +1,7 @@
 package com.example.oxionaz.mvpproject.model;
 
-import com.example.oxionaz.mvpproject.EventBus;
+import com.example.oxionaz.mvpproject.App;
+import com.example.oxionaz.mvpproject.util.EventBus;
 import com.example.oxionaz.mvpproject.model.sources.MapperDTO;
 import com.example.oxionaz.mvpproject.model.sources.db.DatabaseHelper;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Branch;
@@ -9,15 +10,23 @@ import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
 import com.example.oxionaz.mvpproject.model.sources.rest.RestService;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
 import rx.Observable;
 
 public class DataManager implements Model {
 
-    private RestService restService = new RestService();
-    private DatabaseHelper databaseHelper = new DatabaseHelper();
     private EventBus eventBus;
 
-    public DataManager(EventBus eventBus){
+    @Inject
+    protected RestService restService;
+
+    @Inject
+    protected DatabaseHelper databaseHelper;
+
+    public void onCreate(EventBus eventBus){
+        App.getAppComponent().inject(this);
         this.eventBus = eventBus;
     }
 

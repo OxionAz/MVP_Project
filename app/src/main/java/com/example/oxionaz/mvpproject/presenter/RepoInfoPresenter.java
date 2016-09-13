@@ -1,28 +1,16 @@
 package com.example.oxionaz.mvpproject.presenter;
 
-import android.os.Bundle;
-
-import com.example.oxionaz.mvpproject.EventBus;
-import com.example.oxionaz.mvpproject.model.parselable.InfoP;
-import com.example.oxionaz.mvpproject.model.sources.db.models.Branch;
-import com.example.oxionaz.mvpproject.model.sources.db.models.Contributor;
+import com.example.oxionaz.mvpproject.util.EventBus;
+import com.example.oxionaz.mvpproject.view.ui.fragments.RepoInfoFragment;
 import com.example.oxionaz.mvpproject.view.ui.fragments.RepoInfoFragmentView;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import rx.Subscription;
 
 public class RepoInfoPresenter extends BasePresenter {
 
-    private static final String BUNDLE_INFO = "BUNDLE_INFO";
-
     private RepoInfoFragmentView view;
-    private List<Contributor> contributorList;
-    private List<Branch> branchList;
 
-    public RepoInfoPresenter(RepoInfoFragmentView view, EventBus eventBus) {
-        super(eventBus);
+    public void onCreate(RepoInfoFragmentView view, EventBus eventBus){
+        dataManager.onCreate(eventBus);
         this.view = view;
     }
 
@@ -33,7 +21,6 @@ public class RepoInfoPresenter extends BasePresenter {
                 .subscribe(branches -> {
                     if (checkList(branches)) {
                         view.showBranches(branches);
-                        branchList = branches;
                     }
                 });
         addSubscription(subBranches);
@@ -42,7 +29,6 @@ public class RepoInfoPresenter extends BasePresenter {
                 .subscribe(contributors -> {
                     if (checkList(contributors)) {
                         view.showContributors(contributors);
-                        contributorList = contributors;
                     }
                 });
         addSubscription(subContributors);
@@ -64,31 +50,6 @@ public class RepoInfoPresenter extends BasePresenter {
                     }
                 });
         addSubscription(subContributors);
-    }
-
-    // Save Info data by parcelable (Example)
-
-    public void onCreate(Bundle savedInstanceState, String owner, String name) {
-
-        if (savedInstanceState != null) {
-            InfoP infoP = savedInstanceState.getParcelable(BUNDLE_INFO);
-            assert infoP != null;
-            branchList = infoP.branchList;
-            contributorList = infoP.contributorList;
-        }
-
-        if (contributorList == null || branchList == null) {
-            downloadInfo(owner, name);
-        } else {
-            view.showBranches(branchList);
-            view.showContributors(contributorList);
-        }
-
-    }
-
-    public void onSaveInstanceState(Bundle outState) {
-        if (contributorList != null && branchList != null)
-            outState.putParcelable(BUNDLE_INFO, new InfoP(branchList, contributorList));
     }
 
 }

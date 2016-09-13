@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.oxionaz.mvpproject.EventBus;
+
+import com.example.oxionaz.mvpproject.App;
+import com.example.oxionaz.mvpproject.util.EventBus;
 import com.example.oxionaz.mvpproject.R;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
 import com.example.oxionaz.mvpproject.presenter.BasePresenter;
@@ -24,14 +26,17 @@ import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.OptionsMenuItem;
 import org.androidannotations.annotations.ViewById;
 import java.util.List;
+import javax.inject.Inject;
 
 @EFragment(R.layout.fragment_repo_list)
 @OptionsMenu(R.menu.toolbar_menu)
 public class RepoListFragment extends BaseFragment implements RepoListFragmentView, EventBus {
 
-    private RepoListPresenter repoListPresenter = new RepoListPresenter(this, this);
     private ActivityCallback activityCallback;
     private RepoListVH repoListVH;
+
+    @Inject
+    protected RepoListPresenter repoListPresenter;
 
     @ViewById
     RecyclerView repo_list;
@@ -54,6 +59,8 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        App.getAppComponent().inject(this);
+        repoListPresenter.onCreate(this, this);
         repoListVH = new RepoListVH(getActivity(), repo_list, progress_bar, login_field, confirm_button, error_text, info_text, option_change);
         activityCallback = (ActivityCallback) getActivity();
         repoListPresenter.getRepoFromCash();

@@ -1,15 +1,24 @@
 package com.example.oxionaz.mvpproject.model.sources.rest;
 
+import com.example.oxionaz.mvpproject.App;
 import com.example.oxionaz.mvpproject.model.sources.ServiceHelper;
 import com.example.oxionaz.mvpproject.model.sources.rest.models.BranchDTO;
 import com.example.oxionaz.mvpproject.model.sources.rest.models.ContributorDTO;
 import com.example.oxionaz.mvpproject.model.sources.rest.models.RepositoryDTO;
 import java.util.List;
+
+import javax.inject.Inject;
+
 import rx.Observable;
 
 public class RestService extends ServiceHelper implements Rest {
 
-    private RestClient restClient = new RestClient();
+    @Inject
+    protected RestClient restClient;
+
+    public RestService(){
+        App.getAppComponent().inject(this);
+    }
 
     @Override
     public Observable<List<RepositoryDTO>> downloadRepositoryList(String user){

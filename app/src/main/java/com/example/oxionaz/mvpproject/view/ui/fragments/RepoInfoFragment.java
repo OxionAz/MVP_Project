@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.oxionaz.mvpproject.EventBus;
+import com.example.oxionaz.mvpproject.App;
+import com.example.oxionaz.mvpproject.util.EventBus;
 import com.example.oxionaz.mvpproject.R;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Branch;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Contributor;
@@ -19,18 +17,17 @@ import com.example.oxionaz.mvpproject.presenter.BasePresenter;
 import com.example.oxionaz.mvpproject.presenter.RepoInfoPresenter;
 import com.example.oxionaz.mvpproject.view.ui.adapters.BranchAdapter;
 import com.example.oxionaz.mvpproject.view.ui.adapters.ContributorAdapter;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-
-import java.io.Serializable;
 import java.util.List;
+import javax.inject.Inject;
 
 @EFragment(R.layout.fragment_repo_info)
 public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentView, EventBus {
 
-    private RepoInfoPresenter repoInfoPresenter = new RepoInfoPresenter(this, this);
+    @Inject
+    protected RepoInfoPresenter repoInfoPresenter;
 
     @ViewById
     TextView name;
@@ -48,15 +45,14 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        repoInfoPresenter.onCreate(savedInstanceState, getArguments().getString("owner"), getArguments().getString("name"));
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        repoInfoPresenter.onSaveInstanceState(outState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        App.getAppComponent().inject(this);
+        repoInfoPresenter.onCreate(this, this);
+        if (savedInstanceState == null)
+            repoInfoPresenter.downloadInfo(
+                    getArguments().getString("owner"), getArguments().getString("name"));
+        else repoInfoPresenter.getInfoFromCash();
     }
 
     @AfterViews

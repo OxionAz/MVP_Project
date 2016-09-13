@@ -1,4 +1,4 @@
-package com.example.oxionaz.mvpproject;
+package com.example.oxionaz.mvpproject.util;
 
 public interface EventBus {
 
