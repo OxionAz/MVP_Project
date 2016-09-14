@@ -2,6 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
+def coverageSourceDirs = [
+        '../app/src/main/java'
+]
 
 def dbflow_version = "3.0.1"
 // or dbflow_version = "develop-SNAPSHOT" for grabbing latest dependency in your project on the develop branch
@@ -83,5 +92,41 @@ apt {
         // You can set optional annotation processing options here, like these commented options:
         // logLevel 'INFO'
         // logFile '/var/log/aa.log'
+    }
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+    classDirectories = fileTree(
+            dir: '../app/build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/*$ViewBinder*.*',   //DI
+                       '**/*_MembersInjector*.*',  //DI
+                       '**/*_Factory*.*',  //DI
+                       '**/mvpproject/model/sources/rest/dto/*.*', //dto model
+                       '**/mvpproject/model/sources/db/models/*.*', //vo model
+                       '**/mvpproject/model/parselable/*.*',
+                       '**/mvpproject/di/**',
+                       '**/mvpproject/util/**',
+                       '**/App.class',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*',
+                       '**/Lambda$*.class',
+                       '**/Lambda.class',
+                       '**/*Lambda.class',
+                       '**/*Lambda*.class']
+    )
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('../app/build/jacoco/testDebugUnitTest.exec')
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
     }
 }

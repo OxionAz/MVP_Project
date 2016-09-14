@@ -3,9 +3,9 @@ package com.example.oxionaz.mvpproject.model.sources;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Branch;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Contributor;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
-import com.example.oxionaz.mvpproject.model.sources.rest.models.BranchDTO;
-import com.example.oxionaz.mvpproject.model.sources.rest.models.ContributorDTO;
-import com.example.oxionaz.mvpproject.model.sources.rest.models.RepositoryDTO;
+import com.example.oxionaz.mvpproject.model.sources.rest.dto.BranchDTO;
+import com.example.oxionaz.mvpproject.model.sources.rest.dto.ContributorDTO;
+import com.example.oxionaz.mvpproject.model.sources.rest.dto.RepositoryDTO;
 
 public class MapperDTO {
 

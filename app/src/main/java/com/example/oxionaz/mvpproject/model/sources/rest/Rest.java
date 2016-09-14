@@ -1,8 +1,8 @@
 package com.example.oxionaz.mvpproject.model.sources.rest;
 
-import com.example.oxionaz.mvpproject.model.sources.rest.models.BranchDTO;
-import com.example.oxionaz.mvpproject.model.sources.rest.models.ContributorDTO;
-import com.example.oxionaz.mvpproject.model.sources.rest.models.RepositoryDTO;
+import com.example.oxionaz.mvpproject.model.sources.rest.dto.BranchDTO;
+import com.example.oxionaz.mvpproject.model.sources.rest.dto.ContributorDTO;
+import com.example.oxionaz.mvpproject.model.sources.rest.dto.RepositoryDTO;
 import java.util.List;
 import rx.Observable;
 

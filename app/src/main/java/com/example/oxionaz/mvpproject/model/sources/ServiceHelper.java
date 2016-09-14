@@ -2,14 +2,10 @@ package com.example.oxionaz.mvpproject.model.sources;
 
 import com.example.oxionaz.mvpproject.App;
 import com.example.oxionaz.mvpproject.util.Const;
-
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import rx.Observable;
 import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public abstract class ServiceHelper {
 

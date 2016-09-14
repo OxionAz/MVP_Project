@@ -1,4 +1,4 @@
-package com.example.oxionaz.mvpproject.model.sources.rest.models;
+package com.example.oxionaz.mvpproject.model.sources.rest.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
