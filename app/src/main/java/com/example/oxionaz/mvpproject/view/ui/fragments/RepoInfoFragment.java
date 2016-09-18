@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.oxionaz.mvpproject.App;
-import com.example.oxionaz.mvpproject.util.EventBus;
+import com.example.oxionaz.mvpproject.other.App;
+import com.example.oxionaz.mvpproject.other.EventBus;
 import com.example.oxionaz.mvpproject.R;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Branch;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Contributor;

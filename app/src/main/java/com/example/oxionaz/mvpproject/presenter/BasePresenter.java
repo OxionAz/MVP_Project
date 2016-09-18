@@ -1,6 +1,6 @@
 package com.example.oxionaz.mvpproject.presenter;
 
-import com.example.oxionaz.mvpproject.App;
+import com.example.oxionaz.mvpproject.other.App;
 import com.example.oxionaz.mvpproject.model.DataManager;
 import com.raizlabs.android.dbflow.structure.Model;
 import java.util.List;

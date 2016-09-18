@@ -1,7 +1,7 @@
 package com.example.oxionaz.mvpproject.model.sources.rest;
 
 import com.example.oxionaz.mvpproject.model.sources.rest.api.GitHubAPI;
-import com.example.oxionaz.mvpproject.util.Const;
+import com.example.oxionaz.mvpproject.other.Const;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

@@ -1,13 +1,10 @@
-package com.example.oxionaz.mvpproject;
+package com.example.oxionaz.mvpproject.other;
 
 import android.app.Application;
-
-import com.example.oxionaz.mvpproject.di.AppComponent;
-import com.example.oxionaz.mvpproject.di.DaggerAppComponent;
+import com.example.oxionaz.mvpproject.other.di.AppComponent;
+import com.example.oxionaz.mvpproject.other.di.DaggerAppComponent;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
-
-import dagger.internal.DaggerCollections;
 
 public class App extends Application {
 

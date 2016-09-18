@@ -1,24 +1,24 @@
-package com.example.oxionaz.mvpproject.di;
+package com.example.oxionaz.mvpproject.other.di;
 
 import com.example.oxionaz.mvpproject.model.sources.db.DatabaseHelper;
 import com.example.oxionaz.mvpproject.model.sources.rest.RestService;
 import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
+import static org.mockito.Mockito.mock;
 
 @Module
-public class ModelModule {
+public class ModelTestModule {
 
     @Provides
     @Singleton
     RestService provideRestService(){
-        return new RestService();
+        return mock(RestService.class);
     }
 
     @Provides
     @Singleton
     DatabaseHelper provideDatabaseHelper(){
-        return new DatabaseHelper();
+        return mock(DatabaseHelper.class);
     }
-
 }

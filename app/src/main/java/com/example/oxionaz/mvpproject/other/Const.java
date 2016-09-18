@@ -1,4 +1,4 @@
-package com.example.oxionaz.mvpproject.util;
+package com.example.oxionaz.mvpproject.other;
 
 public interface Const {
 

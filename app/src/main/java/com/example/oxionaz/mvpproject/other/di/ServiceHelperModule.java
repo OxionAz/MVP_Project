@@ -1,8 +1,8 @@
-package com.example.oxionaz.mvpproject.di;
+package com.example.oxionaz.mvpproject.other.di;
 
 import com.example.oxionaz.mvpproject.model.sources.rest.RestClient;
-import com.example.oxionaz.mvpproject.util.Const;
-
+import com.example.oxionaz.mvpproject.model.sources.rest.api.GitHubAPI;
+import com.example.oxionaz.mvpproject.other.Const;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import dagger.Module;
@@ -16,8 +16,8 @@ public class ServiceHelperModule {
 
     @Provides
     @Singleton
-    RestClient provideRestClient(){
-        return new RestClient();
+    GitHubAPI provideRestClient(){
+        return new RestClient().getGitHubAPI();
     }
 
     @Provides

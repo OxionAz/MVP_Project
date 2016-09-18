@@ -1,7 +1,7 @@
 package com.example.oxionaz.mvpproject.model;
 
-import com.example.oxionaz.mvpproject.App;
-import com.example.oxionaz.mvpproject.util.EventBus;
+import com.example.oxionaz.mvpproject.other.App;
+import com.example.oxionaz.mvpproject.other.EventBus;
 import com.example.oxionaz.mvpproject.model.sources.MapperDTO;
 import com.example.oxionaz.mvpproject.model.sources.db.DatabaseHelper;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Branch;

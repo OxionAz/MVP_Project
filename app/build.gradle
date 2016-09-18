@@ -41,7 +41,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
 
     // Design
     compile 'com.android.support:appcompat-v7:24.2.0'
@@ -50,9 +49,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.0'
 
     // Dagger 2
-    compile 'com.google.dagger:dagger:2.6.1'
-    apt 'com.google.dagger:dagger-compiler:2.6.1'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'com.google.dagger:dagger:2.7'
+    apt 'com.google.dagger:dagger-compiler:2.7'
 
     // AndroidAnnotations
     compile 'org.androidannotations:androidannotations-api:4.0.0'
@@ -69,6 +67,13 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.5'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+
+    // Testing
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.1.2'
+    testCompile 'com.squareup.okhttp3:mockwebserver:3.3.1'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testApt 'com.google.dagger:dagger-compiler:2.7'
 
     // DBFlow
     apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
@@ -104,15 +109,18 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             excludes: ['**/R.class',
                        '**/R$*.class',
                        '**/*$ViewInjector*.*',
-                       '**/*$ViewBinder*.*',   //DI
-                       '**/*_MembersInjector*.*',  //DI
-                       '**/*_Factory*.*',  //DI
-                       '**/mvpproject/model/sources/rest/dto/*.*', //dto model
-                       '**/mvpproject/model/sources/db/models/*.*', //vo model
-                       '**/mvpproject/model/parselable/*.*',
-                       '**/mvpproject/di/**',
-                       '**/mvpproject/util/**',
-                       '**/App.class',
+                       '**/*$ViewBinder*.*',   // DI
+                       '**/*_MembersInjector*.*',  // DI
+                       '**/*_Factory*.*',  // DI
+                       '**/mvpproject/view/ui/fragments/vh/*.*', // view helper
+                       '**/mvpproject/model/sources/ServiceHelper.class', // service helper
+                       '**/mvpproject/model/sources/rest/RestClient.class', // rest client
+                       '**/mvpproject/model/sources/rest/dto/*.*', // dto model
+                       '**/mvpproject/model/sources/db/models/*.*', // vo model
+                       '**/mvpproject/model/sources/db/AppDatabase.class', // DB name
+                       '**/mvpproject/model/parselable/*.*', // parcelable
+                       '**/mvpproject/other/**', // other
+                       '**/dbflow/config/**', // DB config
                        '**/BuildConfig.*',
                        '**/Manifest*.*',
                        '**/Lambda$*.class',

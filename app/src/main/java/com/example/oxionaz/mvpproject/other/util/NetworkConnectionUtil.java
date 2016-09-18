@@ -1,4 +1,4 @@
-package com.example.oxionaz.mvpproject.util;
+package com.example.oxionaz.mvpproject.other.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

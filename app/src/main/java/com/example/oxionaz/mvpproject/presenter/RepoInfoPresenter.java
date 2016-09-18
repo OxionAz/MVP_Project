@@ -1,7 +1,6 @@
 package com.example.oxionaz.mvpproject.presenter;
 
-import com.example.oxionaz.mvpproject.util.EventBus;
-import com.example.oxionaz.mvpproject.view.ui.fragments.RepoInfoFragment;
+import com.example.oxionaz.mvpproject.other.EventBus;
 import com.example.oxionaz.mvpproject.view.ui.fragments.RepoInfoFragmentView;
 import rx.Subscription;
 

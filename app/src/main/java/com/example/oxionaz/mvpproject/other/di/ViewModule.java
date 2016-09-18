@@ -1,4 +1,4 @@
-package com.example.oxionaz.mvpproject.di;
+package com.example.oxionaz.mvpproject.other.di;
 
 import com.example.oxionaz.mvpproject.presenter.RepoInfoPresenter;
 import com.example.oxionaz.mvpproject.presenter.RepoListPresenter;

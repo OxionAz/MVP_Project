@@ -1,7 +1,7 @@
 package com.example.oxionaz.mvpproject.model.sources;
 
-import com.example.oxionaz.mvpproject.App;
-import com.example.oxionaz.mvpproject.util.Const;
+import com.example.oxionaz.mvpproject.other.App;
+import com.example.oxionaz.mvpproject.other.Const;
 import javax.inject.Inject;
 import javax.inject.Named;
 import rx.Observable;
