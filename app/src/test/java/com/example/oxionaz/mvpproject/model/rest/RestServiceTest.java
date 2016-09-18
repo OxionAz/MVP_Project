@@ -1,17 +1,16 @@
 package com.example.oxionaz.mvpproject.model.rest;
 
 import com.example.oxionaz.mvpproject.model.sources.rest.Rest;
-import com.example.oxionaz.mvpproject.model.sources.rest.RestClient;
 import com.example.oxionaz.mvpproject.model.sources.rest.RestService;
 import com.example.oxionaz.mvpproject.model.sources.rest.api.GitHubAPI;
+import com.example.oxionaz.mvpproject.model.sources.rest.dto.BranchDTO;
+import com.example.oxionaz.mvpproject.model.sources.rest.dto.ContributorDTO;
 import com.example.oxionaz.mvpproject.model.sources.rest.dto.RepositoryDTO;
 import com.example.oxionaz.mvpproject.other.BaseTest;
 import com.example.oxionaz.mvpproject.other.TestConst;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +21,7 @@ import rx.Observable;
 import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Matchers.intThat;
 import static org.mockito.Mockito.when;
 
 public class RestServiceTest extends BaseTest {
@@ -32,21 +31,31 @@ public class RestServiceTest extends BaseTest {
     @Inject
     protected GitHubAPI gitHubAPI;
 
+    @Inject
+    protected List<RepositoryDTO> repositoryDTOList;
+
+    @Inject
+    protected List<BranchDTO> branchDTOList;
+
+    @Inject
+    protected List<ContributorDTO> contributorDTOList;
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
         component.inject(this);
         rest = new RestService();
+
+        when(gitHubAPI.getRepositories(TestConst.TEST_OWNER))
+                .thenReturn(Observable.just(repositoryDTOList));
+        when(gitHubAPI.getBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO))
+                .thenReturn(Observable.just(branchDTOList));
+        when(gitHubAPI.getContributors(TestConst.TEST_OWNER, TestConst.TEST_REPO))
+                .thenReturn(Observable.just(contributorDTOList));
     }
 
     @Test
     public void testDownloadRepositoryList(){
-        RepositoryDTO[] repositoryDTOs = testUtils.getGson()
-                .fromJson(testUtils.readString("json/repos.json"), RepositoryDTO[].class);
-
-        when(gitHubAPI.getRepositories(TestConst.TEST_OWNER))
-                .thenReturn(Observable.just(Arrays.asList(repositoryDTOs)));
-
         TestSubscriber<List<RepositoryDTO>> testSubscriber = new TestSubscriber<>();
         rest.downloadRepositoryList(TestConst.TEST_OWNER).subscribe(testSubscriber);
 
@@ -61,4 +70,34 @@ public class RestServiceTest extends BaseTest {
         assertEquals(26314692, (int) actual.get(0).getId());
     }
 
+    @Test
+    public void testDownloadBranchList() {
+        TestSubscriber<List<BranchDTO>> testSubscriber = new TestSubscriber<>();
+        rest.downloadBranchList(TestConst.TEST_OWNER, TestConst.TEST_REPO).subscribe(testSubscriber);
+
+        testSubscriber.assertNoErrors();
+        testSubscriber.assertValueCount(1);
+
+        List<BranchDTO> actual = testSubscriber.getOnNextEvents().get(0);
+
+        assertEquals(3, actual.size());
+        assertEquals("QuickStart", actual.get(0).getName());
+        assertEquals("94870e23f1cfafe7201bf82985b61188f650b245", actual.get(0).getCommitDTO().getSha());
+    }
+
+    @Test
+    public void testDownloadContributorList() {
+        TestSubscriber<List<ContributorDTO>> testSubscriber = new TestSubscriber<>();
+        rest.downloadContributorList(TestConst.TEST_OWNER, TestConst.TEST_REPO).subscribe(testSubscriber);
+
+        testSubscriber.assertNoErrors();
+        testSubscriber.assertValueCount(1);
+
+        List<ContributorDTO> actual = testSubscriber.getOnNextEvents().get(0);
+
+        assertEquals(11, actual.size());
+        assertEquals("hotchemi", actual.get(0).getLogin());
+        assertEquals("User", actual.get(0).getType());
+        assertEquals(471318, (int) actual.get(0).getId());
+    }
 }

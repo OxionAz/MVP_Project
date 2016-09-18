@@ -6,22 +6,13 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class TestUtils {
+public class GsonUtils {
 
     private Gson gson = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
 
-    public void log(String log) {
-        System.out.println(log);
-    }
-
     public Gson getGson() {
         return gson;
-    }
-
-
-    public <T> T readJson(String fileName, Class<T> inClass) {
-        return gson.fromJson(readString(fileName), inClass);
     }
 
     public String readString(String fileName) {
@@ -43,7 +34,5 @@ public class TestUtils {
                 e.printStackTrace();
             }
         }
-
     }
-
 }

@@ -1,6 +1,7 @@
 package com.example.oxionaz.mvpproject.other.di;
 
 import com.example.oxionaz.mvpproject.model.DataManagerTest;
+import com.example.oxionaz.mvpproject.model.rest.GitHubApiTest;
 import com.example.oxionaz.mvpproject.model.rest.RestServiceTest;
 import com.example.oxionaz.mvpproject.other.BaseTest;
 
@@ -12,6 +13,8 @@ import dagger.Component;
 public interface TestComponent extends AppComponent {
 
     void inject(BaseTest baseTest);
+
+    void inject(GitHubApiTest gitHubApiTest);
 
     void inject(RestServiceTest restServiceTest);
 
