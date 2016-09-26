@@ -1,8 +1,8 @@
 package com.example.oxionaz.mvpproject.other.di;
 
 import com.example.oxionaz.mvpproject.model.DataManagerTest;
-import com.example.oxionaz.mvpproject.model.rest.GitHubApiTest;
-import com.example.oxionaz.mvpproject.model.rest.RestServiceTest;
+import com.example.oxionaz.mvpproject.model.sources.rest.GitHubApiTest;
+import com.example.oxionaz.mvpproject.model.sources.rest.RestServiceTest;
 import com.example.oxionaz.mvpproject.other.BaseTest;
 
 import javax.inject.Singleton;

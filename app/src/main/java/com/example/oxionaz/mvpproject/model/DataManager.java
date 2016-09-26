@@ -1,6 +1,7 @@
 package com.example.oxionaz.mvpproject.model;
 
 import com.example.oxionaz.mvpproject.other.App;
+import com.example.oxionaz.mvpproject.other.Const;
 import com.example.oxionaz.mvpproject.other.EventBus;
 import com.example.oxionaz.mvpproject.model.sources.MapperDTO;
 import com.example.oxionaz.mvpproject.model.sources.db.DatabaseHelper;
@@ -10,6 +11,7 @@ import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
 import com.example.oxionaz.mvpproject.model.sources.rest.RestService;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -17,6 +19,7 @@ import rx.Observable;
 
 public class DataManager implements Model {
 
+    private final static Throwable DATA_ERROR = new Throwable(Const.DATA_ERROR);
     private EventBus eventBus;
 
     @Inject
@@ -35,8 +38,14 @@ public class DataManager implements Model {
     @Override
     public Observable<List<Repository>> downloadRepositories(String user) {
         return restService.downloadRepositoryList(user)
-                .doOnError(throwable -> eventBus.onDownloadError(throwable.getMessage()))
+                .doOnError(throwable -> eventBus.onDownloadError(throwable))
                 .onErrorResumeNext(Observable.empty())
+                .doOnNext(repositoryDTOList -> {
+                    if (repositoryDTOList == null){
+                        eventBus.onDownloadError(DATA_ERROR);
+                        Observable.empty();
+                    }
+                })
                 .flatMap(Observable::from)
                 .map(MapperDTO::mapRepo)
                 .toList()
@@ -46,8 +55,14 @@ public class DataManager implements Model {
     @Override
     public Observable<List<Branch>> downloadBranches(String owner, String repo) {
         return restService.downloadBranchList(owner, repo)
-                .doOnError(throwable -> eventBus.onDownloadError(throwable.getMessage()))
+                .doOnError(throwable -> eventBus.onDownloadError(throwable))
                 .onErrorResumeNext(Observable.empty())
+                .doOnNext(branchDTOList -> {
+                    if (branchDTOList == null){
+                        eventBus.onDownloadError(DATA_ERROR);
+                        Observable.empty();
+                    }
+                })
                 .flatMap(Observable::from)
                 .map(MapperDTO::mapBranch)
                 .toList()
@@ -57,8 +72,14 @@ public class DataManager implements Model {
     @Override
     public Observable<List<Contributor>> downloadContributors(String owner, String repo) {
         return restService.downloadContributorList(owner, repo)
-                .doOnError(throwable -> eventBus.onDownloadError(throwable.getMessage()))
+                .doOnError(throwable -> eventBus.onDownloadError(throwable))
                 .onErrorResumeNext(Observable.empty())
+                .doOnNext(contributorDTOList -> {
+                    if (contributorDTOList == null){
+                        eventBus.onDownloadError(DATA_ERROR);
+                        Observable.empty();
+                    }
+                })
                 .flatMap(Observable::from)
                 .map(MapperDTO::mapContrib)
                 .toList()
@@ -70,19 +91,19 @@ public class DataManager implements Model {
     @Override
     public Observable<List<Repository>> getRepositoriesFromCash() {
         return databaseHelper.getRepositories()
-                .doOnError(throwable -> eventBus.onCashError(throwable.getMessage()));
+                .doOnError(eventBus::onCashError);
     }
 
     @Override
     public Observable<List<Branch>> getBranchesFromCash() {
         return databaseHelper.getBranches()
-                .doOnError(throwable -> eventBus.onCashError(throwable.getMessage()));
+                .doOnError(eventBus::onCashError);
     }
 
     @Override
     public Observable<List<Contributor>> getContributorsFromCash() {
         return databaseHelper.getContributors()
-                .doOnError(throwable -> eventBus.onCashError(throwable.getMessage()));
+                .doOnError(eventBus::onCashError);
     }
 
     // Clear cash
@@ -101,5 +122,4 @@ public class DataManager implements Model {
     public void clearContributorsCash() {
         databaseHelper.clearContributorTable();
     }
-
 }

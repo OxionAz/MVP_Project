@@ -12,14 +12,14 @@ public class RestClient {
 
     private Retrofit retrofit;
 
-    public RestClient(){
+    public RestClient(String url){
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder().addInterceptor(logging);
         retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(Const.BASE_URL)
+                .baseUrl(url)
                 .client(httpClient.build())
                 .build();
     }

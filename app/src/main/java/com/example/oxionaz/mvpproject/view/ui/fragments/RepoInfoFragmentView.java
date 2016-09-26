@@ -9,5 +9,4 @@ public interface RepoInfoFragmentView extends View {
 
     void showContributors(List<Contributor> contributors);
     void showBranches(List<Branch> branches);
-
 }

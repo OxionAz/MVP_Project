@@ -78,13 +78,13 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
     }
 
     @Override
-    public void onDownloadError(String error) {
-        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+    public void onDownloadError(Throwable error) {
+        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onCashError(String error) {
-        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+    public void onCashError(Throwable error) {
+        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

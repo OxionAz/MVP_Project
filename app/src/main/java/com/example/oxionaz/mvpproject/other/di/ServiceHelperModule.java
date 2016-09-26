@@ -17,7 +17,7 @@ public class ServiceHelperModule {
     @Provides
     @Singleton
     GitHubAPI provideRestClient(){
-        return new RestClient().getGitHubAPI();
+        return new RestClient(Const.BASE_URL).getGitHubAPI();
     }
 
     @Provides

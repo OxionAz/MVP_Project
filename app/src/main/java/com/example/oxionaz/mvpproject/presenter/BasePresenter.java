@@ -35,5 +35,4 @@ public abstract class BasePresenter implements Presenter {
     protected static <T extends Model> boolean checkList(List<T> data){
         return data != null && !data.isEmpty();
     }
-
 }

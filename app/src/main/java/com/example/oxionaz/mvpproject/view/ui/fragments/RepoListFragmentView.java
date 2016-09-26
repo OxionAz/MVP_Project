@@ -10,5 +10,4 @@ public interface RepoListFragmentView extends View {
     void showRepoList(List<Repository> repoList);
     void startRepoInfoFragment(Repository repo);
     String getUserName();
-
 }

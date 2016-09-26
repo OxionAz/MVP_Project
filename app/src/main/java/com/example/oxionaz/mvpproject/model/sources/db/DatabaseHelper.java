@@ -105,5 +105,4 @@ public class DatabaseHelper extends ServiceHelper implements Database {
                 .build()
                 .execute();
     }
-
 }

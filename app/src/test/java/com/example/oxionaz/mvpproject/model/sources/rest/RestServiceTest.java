@@ -1,7 +1,5 @@
-package com.example.oxionaz.mvpproject.model.rest;
+package com.example.oxionaz.mvpproject.model.sources.rest;
 
-import com.example.oxionaz.mvpproject.model.sources.rest.Rest;
-import com.example.oxionaz.mvpproject.model.sources.rest.RestService;
 import com.example.oxionaz.mvpproject.model.sources.rest.api.GitHubAPI;
 import com.example.oxionaz.mvpproject.model.sources.rest.dto.BranchDTO;
 import com.example.oxionaz.mvpproject.model.sources.rest.dto.ContributorDTO;
@@ -12,7 +10,6 @@ import com.example.oxionaz.mvpproject.other.TestConst;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,7 +18,6 @@ import rx.Observable;
 import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.intThat;
 import static org.mockito.Mockito.when;
 
 public class RestServiceTest extends BaseTest {
@@ -30,15 +26,6 @@ public class RestServiceTest extends BaseTest {
 
     @Inject
     protected GitHubAPI gitHubAPI;
-
-    @Inject
-    protected List<RepositoryDTO> repositoryDTOList;
-
-    @Inject
-    protected List<BranchDTO> branchDTOList;
-
-    @Inject
-    protected List<ContributorDTO> contributorDTOList;
 
     @Before
     public void setUp() throws Exception {
