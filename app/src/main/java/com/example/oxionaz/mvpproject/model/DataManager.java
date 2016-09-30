@@ -19,14 +19,13 @@ import rx.Observable;
 
 public class DataManager implements Model {
 
-    private final static Throwable DATA_ERROR = new Throwable(Const.DATA_ERROR);
     private EventBus eventBus;
 
     @Inject
-    protected RestService restService;
+    RestService restService;
 
     @Inject
-    protected DatabaseHelper databaseHelper;
+    DatabaseHelper databaseHelper;
 
     public void onCreate(EventBus eventBus){
         App.getAppComponent().inject(this);
@@ -38,11 +37,11 @@ public class DataManager implements Model {
     @Override
     public Observable<List<Repository>> downloadRepositories(String user) {
         return restService.downloadRepositoryList(user)
-                .doOnError(throwable -> eventBus.onDownloadError(throwable))
+                .doOnError(eventBus::onDownloadError)
                 .onErrorResumeNext(Observable.empty())
                 .doOnNext(repositoryDTOList -> {
                     if (repositoryDTOList == null){
-                        eventBus.onDownloadError(DATA_ERROR);
+                        eventBus.onDownloadError(Const.DATA_THROWABLE);
                         Observable.empty();
                     }
                 })
@@ -55,11 +54,11 @@ public class DataManager implements Model {
     @Override
     public Observable<List<Branch>> downloadBranches(String owner, String repo) {
         return restService.downloadBranchList(owner, repo)
-                .doOnError(throwable -> eventBus.onDownloadError(throwable))
+                .doOnError(eventBus::onDownloadError)
                 .onErrorResumeNext(Observable.empty())
                 .doOnNext(branchDTOList -> {
                     if (branchDTOList == null){
-                        eventBus.onDownloadError(DATA_ERROR);
+                        eventBus.onDownloadError(Const.DATA_THROWABLE);
                         Observable.empty();
                     }
                 })
@@ -72,11 +71,11 @@ public class DataManager implements Model {
     @Override
     public Observable<List<Contributor>> downloadContributors(String owner, String repo) {
         return restService.downloadContributorList(owner, repo)
-                .doOnError(throwable -> eventBus.onDownloadError(throwable))
+                .doOnError(eventBus::onDownloadError)
                 .onErrorResumeNext(Observable.empty())
                 .doOnNext(contributorDTOList -> {
                     if (contributorDTOList == null){
-                        eventBus.onDownloadError(DATA_ERROR);
+                        eventBus.onDownloadError(Const.DATA_THROWABLE);
                         Observable.empty();
                     }
                 })

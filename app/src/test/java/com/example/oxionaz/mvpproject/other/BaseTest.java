@@ -24,7 +24,7 @@ import javax.inject.Inject;
 @Ignore
 public class BaseTest {
 
-    public TestComponent component;
+    protected TestComponent component;
 
     @Inject
     protected GsonUtils gsonUtils;

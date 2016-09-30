@@ -7,4 +7,5 @@ public interface Const {
     String BASE_URL = "https://api.github.com/";
     String TEST_URL = "/";
     String DATA_ERROR = "Data error";
+    Throwable DATA_THROWABLE = new Throwable(Const.DATA_ERROR);
 }

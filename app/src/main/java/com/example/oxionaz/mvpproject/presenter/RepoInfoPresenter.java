@@ -1,6 +1,7 @@
 package com.example.oxionaz.mvpproject.presenter;
 
 import com.example.oxionaz.mvpproject.other.EventBus;
+import com.example.oxionaz.mvpproject.other.util.CheckUtils;
 import com.example.oxionaz.mvpproject.view.ui.fragments.RepoInfoFragmentView;
 import rx.Subscription;
 
@@ -18,7 +19,7 @@ public class RepoInfoPresenter extends BasePresenter {
     public void downloadInfo(String owner, String name){
         Subscription subBranches = dataManager.downloadBranches(owner, name)
                 .subscribe(branches -> {
-                    if (checkList(branches)) {
+                    if (CheckUtils.checkList(branches)) {
                         view.showBranches(branches);
                     }
                 });
@@ -26,7 +27,7 @@ public class RepoInfoPresenter extends BasePresenter {
 
         Subscription subContributors = dataManager.downloadContributors(owner, name)
                 .subscribe(contributors -> {
-                    if (checkList(contributors)) {
+                    if (CheckUtils.checkList(contributors)) {
                         view.showContributors(contributors);
                     }
                 });
@@ -36,7 +37,7 @@ public class RepoInfoPresenter extends BasePresenter {
     public void getInfoFromCash(){
         Subscription subBranches = dataManager.getBranchesFromCash()
                 .subscribe(branches -> {
-                    if (checkList(branches)) {
+                    if (CheckUtils.checkList(branches)) {
                         view.showBranches(branches);
                     }
                 });
@@ -44,11 +45,10 @@ public class RepoInfoPresenter extends BasePresenter {
 
         Subscription subContributors = dataManager.getContributorsFromCash()
                 .subscribe(contributors -> {
-                    if (checkList(contributors)) {
+                    if (CheckUtils.checkList(contributors)) {
                         view.showContributors(contributors);
                     }
                 });
         addSubscription(subContributors);
     }
-
 }

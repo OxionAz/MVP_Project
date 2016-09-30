@@ -1,6 +1,7 @@
 package com.example.oxionaz.mvpproject.presenter;
 
 import com.example.oxionaz.mvpproject.other.EventBus;
+import com.example.oxionaz.mvpproject.other.util.CheckUtils;
 import com.example.oxionaz.mvpproject.view.ui.fragments.RepoListFragmentView;
 import rx.Subscription;
 
@@ -22,7 +23,7 @@ public class RepoListPresenter extends BasePresenter {
     public void getRepoFromCash() {
         Subscription subscription = dataManager.getRepositoriesFromCash()
                 .subscribe(repositories -> {
-                    if (checkList(repositories)) {
+                    if (CheckUtils.checkList(repositories)) {
                         view.showRepoList(repositories);
                     }
                 });
@@ -34,12 +35,11 @@ public class RepoListPresenter extends BasePresenter {
 
         Subscription subscription = dataManager.downloadRepositories(view.getUserName())
                 .subscribe(repositories -> {
-                    if (checkList(repositories)) {
+                    if (CheckUtils.checkList(repositories)) {
                         view.showRepoList(repositories);
                         view.showLoading(false);
                     }
                 });
         addSubscription(subscription);
     }
-
 }

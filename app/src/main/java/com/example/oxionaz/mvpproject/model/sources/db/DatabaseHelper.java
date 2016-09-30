@@ -8,6 +8,7 @@ import com.example.oxionaz.mvpproject.model.sources.db.models.Contributor;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Contributor_Table;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Repository_Table;
+import com.example.oxionaz.mvpproject.other.util.CheckUtils;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.Model;
@@ -23,7 +24,7 @@ public class DatabaseHelper extends ServiceHelper implements Database {
 
     @Override
     public void saveRepositories(List<Repository> repositories){
-        if (checkList(repositories)) {
+        if (CheckUtils.checkList(repositories)) {
             clearRepositoryTable();
             saveTransaction(repositories);
         }
@@ -31,7 +32,7 @@ public class DatabaseHelper extends ServiceHelper implements Database {
 
     @Override
     public void saveBranches(List<Branch> branches) {
-        if (checkList(branches)) {
+        if (CheckUtils.checkList(branches)) {
             clearBranchTable();
             saveTransaction(branches);
         }
@@ -39,7 +40,7 @@ public class DatabaseHelper extends ServiceHelper implements Database {
 
     @Override
     public void saveContributors(List<Contributor> contributors) {
-        if (checkList(contributors)) {
+        if (CheckUtils.checkList(contributors)) {
             clearContributorTable();
             saveTransaction(contributors);
         }
@@ -88,13 +89,8 @@ public class DatabaseHelper extends ServiceHelper implements Database {
         SQLite.delete(Contributor.class).execute();
     }
 
-    // Useful methods
-
-    private static <T extends Model> boolean checkList(List<T> data){
-        return data != null && !data.isEmpty();
-    }
-
-    private static <T extends Model> void saveTransaction(List<T> data){
+    // Transaction for save
+    <T extends Model> void saveTransaction(List<T> data){
         FlowManager
                 .getDatabase(AppDatabase.class)
                 .beginTransactionAsync(new ProcessModelTransaction.Builder<>(

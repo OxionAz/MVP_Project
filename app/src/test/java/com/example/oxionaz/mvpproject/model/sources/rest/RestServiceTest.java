@@ -25,7 +25,7 @@ public class RestServiceTest extends BaseTest {
     private Rest rest;
 
     @Inject
-    protected GitHubAPI gitHubAPI;
+    GitHubAPI gitHubAPI;
 
     @Before
     public void setUp() throws Exception {

@@ -13,7 +13,7 @@ import rx.Observable;
 public class RestService extends ServiceHelper implements Rest {
 
     @Inject
-    protected GitHubAPI gitHubAPI;
+    GitHubAPI gitHubAPI;
 
     public RestService(){
         App.getAppComponent().inject(this);

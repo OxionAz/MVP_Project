@@ -11,10 +11,10 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class BasePresenter implements Presenter {
 
     @Inject
-    protected DataManager dataManager;
+    DataManager dataManager;
 
     @Inject
-    protected CompositeSubscription compositeSubscription;
+    CompositeSubscription compositeSubscription;
 
     public BasePresenter(){
         App.getAppComponent().inject(this);
@@ -27,12 +27,7 @@ public abstract class BasePresenter implements Presenter {
     }
 
     // Add subscription
-    protected void addSubscription(Subscription subscription) {
+    void addSubscription(Subscription subscription) {
         compositeSubscription.add(subscription);
-    }
-
-    // Check data for exists
-    protected static <T extends Model> boolean checkList(List<T> data){
-        return data != null && !data.isEmpty();
     }
 }

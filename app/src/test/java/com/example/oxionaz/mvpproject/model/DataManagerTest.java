@@ -6,6 +6,7 @@ import com.example.oxionaz.mvpproject.model.sources.db.models.Contributor;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
 import com.example.oxionaz.mvpproject.model.sources.rest.RestService;
 import com.example.oxionaz.mvpproject.other.BaseTest;
+import com.example.oxionaz.mvpproject.other.Const;
 import com.example.oxionaz.mvpproject.other.EventBus;
 import com.example.oxionaz.mvpproject.other.TestConst;
 import org.junit.Before;
@@ -13,7 +14,6 @@ import org.junit.Test;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
-import rx.observers.TestObserver;
 import rx.observers.TestSubscriber;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -26,13 +26,13 @@ public class DataManagerTest extends BaseTest {
     private DataManager dataManager;
 
     @Inject
-    protected EventBus eventBus;
+    EventBus eventBus;
 
     @Inject
-    protected RestService restService;
+    RestService restService;
 
     @Inject
-    protected DatabaseHelper databaseHelper;
+    DatabaseHelper databaseHelper;
 
     @Before
     public void setUp() throws Exception{
@@ -84,14 +84,14 @@ public class DataManagerTest extends BaseTest {
         dataManager.downloadRepositories(TestConst.TEST_OWNER).subscribe(testSubscriber);
         testSubscriber.assertNoValues();
 
+        verify(eventBus).onDownloadError(Const.DATA_THROWABLE);
         verify(databaseHelper, never()).saveRepositories(any());
     }
 
     @Test
     public void testDownloadRepositoriesOnError(){
-        Throwable throwable = new Throwable(TestConst.TEST_ERROR);
         when(restService.downloadRepositoryList(TestConst.TEST_OWNER))
-                .thenReturn(Observable.error(throwable));
+                .thenReturn(Observable.error(Const.DATA_THROWABLE));
 
         TestSubscriber<List<Repository>> testSubscriber = new TestSubscriber<>();
         dataManager.downloadRepositories(TestConst.TEST_OWNER).subscribe(testSubscriber);
@@ -99,7 +99,7 @@ public class DataManagerTest extends BaseTest {
         List<Repository> actual = testSubscriber.getOnNextEvents().get(0);
         assertEquals(true, actual.isEmpty());
 
-        verify(eventBus).onDownloadError(throwable);
+        verify(eventBus).onDownloadError(Const.DATA_THROWABLE);
     }
 
     @Test
@@ -127,14 +127,14 @@ public class DataManagerTest extends BaseTest {
         dataManager.downloadBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO).subscribe(testSubscriber);
         testSubscriber.assertNoValues();
 
+        verify(eventBus).onDownloadError(Const.DATA_THROWABLE);
         verify(databaseHelper, never()).saveBranches(any());
     }
 
     @Test
     public void testDownloadBranchesOnError(){
-        Throwable throwable = new Throwable(TestConst.TEST_ERROR);
         when(restService.downloadBranchList(TestConst.TEST_OWNER, TestConst.TEST_REPO))
-                .thenReturn(Observable.error(throwable));
+                .thenReturn(Observable.error(Const.DATA_THROWABLE));
 
         TestSubscriber<List<Branch>> testSubscriber = new TestSubscriber<>();
         dataManager.downloadBranches(TestConst.TEST_OWNER, TestConst.TEST_REPO).subscribe(testSubscriber);
@@ -142,7 +142,7 @@ public class DataManagerTest extends BaseTest {
         List<Branch> actual = testSubscriber.getOnNextEvents().get(0);
         assertEquals(true, actual.isEmpty());
 
-        verify(eventBus).onDownloadError(throwable);
+        verify(eventBus).onDownloadError(Const.DATA_THROWABLE);
     }
 
     @Test
@@ -171,14 +171,14 @@ public class DataManagerTest extends BaseTest {
         dataManager.downloadContributors(TestConst.TEST_OWNER, TestConst.TEST_REPO).subscribe(testSubscriber);
         testSubscriber.assertNoValues();
 
+        verify(eventBus).onDownloadError(Const.DATA_THROWABLE);
         verify(databaseHelper, never()).saveContributors(any());
     }
 
     @Test
     public void testDownloadContributorsOnError(){
-        Throwable throwable = new Throwable(TestConst.TEST_ERROR);
         when(restService.downloadContributorList(TestConst.TEST_OWNER, TestConst.TEST_REPO))
-                .thenReturn(Observable.error(throwable));
+                .thenReturn(Observable.error(Const.DATA_THROWABLE));
 
         TestSubscriber<List<Contributor>> testSubscriber = new TestSubscriber<>();
         dataManager.downloadContributors(TestConst.TEST_OWNER, TestConst.TEST_REPO).subscribe(testSubscriber);
@@ -186,7 +186,7 @@ public class DataManagerTest extends BaseTest {
         List<Contributor> actual = testSubscriber.getOnNextEvents().get(0);
         assertEquals(true, actual.isEmpty());
 
-        verify(eventBus).onDownloadError(throwable);
+        verify(eventBus).onDownloadError(Const.DATA_THROWABLE);
     }
 
     @Test
@@ -207,16 +207,15 @@ public class DataManagerTest extends BaseTest {
 
     @Test
     public void testGetRepositoriesFromCashOnError() {
-        Throwable throwable = new Throwable(TestConst.TEST_ERROR);
         when(databaseHelper.getRepositories())
-                .thenReturn(Observable.error(throwable));
+                .thenReturn(Observable.error(Const.DATA_THROWABLE));
 
         TestSubscriber<List<Repository>> testSubscriber = new TestSubscriber<>();
         dataManager.getRepositoriesFromCash().subscribe(testSubscriber);
-        testSubscriber.assertError(throwable);
+        testSubscriber.assertError(Const.DATA_THROWABLE);
         testSubscriber.assertNoValues();
 
-        verify(eventBus).onCashError(throwable);
+        verify(eventBus).onCashError(Const.DATA_THROWABLE);
     }
 
     @Test
@@ -235,16 +234,15 @@ public class DataManagerTest extends BaseTest {
 
     @Test
     public void testGetBranchesFromCashOnError() {
-        Throwable throwable = new Throwable(TestConst.TEST_ERROR);
         when(databaseHelper.getBranches())
-                .thenReturn(Observable.error(throwable));
+                .thenReturn(Observable.error(Const.DATA_THROWABLE));
 
         TestSubscriber<List<Branch>> testSubscriber = new TestSubscriber<>();
         dataManager.getBranchesFromCash().subscribe(testSubscriber);
-        testSubscriber.assertError(throwable);
+        testSubscriber.assertError(Const.DATA_THROWABLE);
         testSubscriber.assertNoValues();
 
-        verify(eventBus).onCashError(throwable);
+        verify(eventBus).onCashError(Const.DATA_THROWABLE);
     }
 
     @Test
@@ -264,16 +262,15 @@ public class DataManagerTest extends BaseTest {
 
     @Test
     public void testGetContributorsFromCashOnError() {
-        Throwable throwable = new Throwable(TestConst.TEST_ERROR);
         when(databaseHelper.getContributors())
-                .thenReturn(Observable.error(throwable));
+                .thenReturn(Observable.error(Const.DATA_THROWABLE));
 
         TestSubscriber<List<Contributor>> testSubscriber = new TestSubscriber<>();
         dataManager.getContributorsFromCash().subscribe(testSubscriber);
-        testSubscriber.assertError(throwable);
+        testSubscriber.assertError(Const.DATA_THROWABLE);
         testSubscriber.assertNoValues();
 
-        verify(eventBus).onCashError(throwable);
+        verify(eventBus).onCashError(Const.DATA_THROWABLE);
     }
 
     @Test
