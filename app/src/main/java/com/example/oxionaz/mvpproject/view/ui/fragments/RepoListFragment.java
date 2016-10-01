@@ -1,5 +1,7 @@
 package com.example.oxionaz.mvpproject.view.ui.fragments;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,7 +38,7 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
     private RepoListVH repoListVH;
 
     @Inject
-    protected RepoListPresenter repoListPresenter;
+    RepoListPresenter repoListPresenter;
 
     @ViewById
     RecyclerView repo_list;
@@ -57,12 +59,17 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
     MenuItem option_change;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        App.getAppComponent().inject(this);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        App.getAppComponent().inject(this);
-        repoListPresenter.onCreate(this, this);
         repoListVH = new RepoListVH(getActivity(), repo_list, progress_bar, login_field, confirm_button, error_text, info_text, option_change);
         activityCallback = (ActivityCallback) getActivity();
+        repoListPresenter.onCreate(this, this);
         repoListPresenter.getRepoFromCash();
     }
 

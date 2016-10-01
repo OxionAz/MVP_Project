@@ -9,6 +9,11 @@ import com.example.oxionaz.mvpproject.model.sources.rest.dto.ContributorDTO;
 import com.example.oxionaz.mvpproject.model.sources.rest.dto.RepositoryDTO;
 import com.example.oxionaz.mvpproject.other.EventBus;
 import com.example.oxionaz.mvpproject.other.util.GsonUtils;
+import com.example.oxionaz.mvpproject.view.ui.activities.ActivityCallback;
+import com.example.oxionaz.mvpproject.view.ui.fragments.RepoInfoFragmentView;
+import com.example.oxionaz.mvpproject.view.ui.fragments.RepoListFragmentView;
+import com.example.oxionaz.mvpproject.view.ui.fragments.vh.RepoListVH;
+
 import java.util.Arrays;
 import java.util.List;
 import javax.inject.Singleton;
@@ -34,8 +39,32 @@ public class DataTestModule {
 
     @Provides
     @Singleton
+    RepoListVH provideRepoListVH() {
+        return mock(RepoListVH.class);
+    }
+
+    @Provides
+    @Singleton
     EventBus provideEventBus(){
         return mock(EventBus.class);
+    }
+
+    @Provides
+    @Singleton
+    RepoListFragmentView provideRepoListFragmentView(){
+        return mock(RepoListFragmentView.class);
+    }
+
+    @Provides
+    @Singleton
+    RepoInfoFragmentView provideRepoInfoFragmentView(){
+        return mock(RepoInfoFragmentView.class);
+    }
+
+    @Provides
+    @Singleton
+    ActivityCallback provideActivityCallback(){
+        return mock(ActivityCallback.class);
     }
 
     @Provides

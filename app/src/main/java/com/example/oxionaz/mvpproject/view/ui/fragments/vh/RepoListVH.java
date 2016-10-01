@@ -18,12 +18,12 @@ import java.util.List;
 
 public class RepoListVH extends ViewHelper {
 
-    RecyclerView repo_list;
-    ProgressBar progress_bar;
-    EditText login_field;
-    Button confirm_button;
-    TextView error_text, info_text;
-    MenuItem option_change;
+    private RecyclerView repo_list;
+    private ProgressBar progress_bar;
+    private EditText login_field;
+    private Button confirm_button;
+    private TextView error_text, info_text;
+    private MenuItem option_change;
 
     public RepoListVH(Context context, RecyclerView repo_list, ProgressBar progress_bar, EditText login_field, Button confirm_button, TextView error_text, TextView info_text, MenuItem option_change) {
         super(context);
@@ -37,7 +37,7 @@ public class RepoListVH extends ViewHelper {
         ready();
     }
 
-    public void ready(){
+    private void ready(){
         repo_list.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -85,5 +85,4 @@ public class RepoListVH extends ViewHelper {
         login_field.setVisibility(View.VISIBLE);
         confirm_button.setVisibility(View.VISIBLE);
     }
-
 }

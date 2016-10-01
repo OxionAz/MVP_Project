@@ -2,12 +2,11 @@ package com.example.oxionaz.mvpproject.view.ui.fragments.vh;
 
 import android.content.Context;
 
-public abstract class ViewHelper {
+abstract class ViewHelper {
 
-    protected Context context;
+    Context context;
 
-    public  ViewHelper(Context context){
+    ViewHelper(Context context){
         this.context = context;
     }
-
 }

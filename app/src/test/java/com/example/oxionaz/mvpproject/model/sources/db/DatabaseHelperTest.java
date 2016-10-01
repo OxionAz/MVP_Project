@@ -9,7 +9,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import rx.Observable;
 import rx.observers.TestSubscriber;
@@ -54,7 +54,7 @@ public class DatabaseHelperTest extends BaseTest {
 
     @Test
     public void testSaveRepositoriesOnEmpty(){
-        databaseHelper.saveRepositories(new ArrayList<>());
+        databaseHelper.saveRepositories(Collections.emptyList());
 
         verify(databaseHelper, never()).clearRepositoryTable();
         verify(databaseHelper, never()).saveTransaction(any());
@@ -78,7 +78,7 @@ public class DatabaseHelperTest extends BaseTest {
 
     @Test
     public void testSaveBranchesOnEmpty(){
-        databaseHelper.saveBranches(new ArrayList<>());
+        databaseHelper.saveBranches(Collections.emptyList());
 
         verify(databaseHelper, never()).clearBranchTable();
         verify(databaseHelper, never()).saveTransaction(any());
@@ -102,7 +102,7 @@ public class DatabaseHelperTest extends BaseTest {
 
     @Test
     public void testSaveContributorsOnEmpty(){
-        databaseHelper.saveContributors(new ArrayList<>());
+        databaseHelper.saveContributors(Collections.emptyList());
 
         verify(databaseHelper, never()).clearContributorTable();
         verify(databaseHelper, never()).saveTransaction(any());
