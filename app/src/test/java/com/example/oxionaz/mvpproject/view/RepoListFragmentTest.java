@@ -1,23 +1,19 @@
 package com.example.oxionaz.mvpproject.view;
 
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import com.example.oxionaz.mvpproject.R;
 import com.example.oxionaz.mvpproject.other.BaseTest;
 import com.example.oxionaz.mvpproject.presenter.RepoListPresenter;
 import com.example.oxionaz.mvpproject.view.ui.activities.ActivityCallback;
 import com.example.oxionaz.mvpproject.view.ui.activities.MainActivity;
+import com.example.oxionaz.mvpproject.view.ui.activities.MainActivity_;
 import com.example.oxionaz.mvpproject.view.ui.fragments.RepoListFragment;
+import com.example.oxionaz.mvpproject.view.ui.fragments.RepoListFragment_;
 import com.example.oxionaz.mvpproject.view.ui.fragments.vh.RepoListVH;
 import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.Robolectric;
+import org.robolectric.Shadows;
 import javax.inject.Inject;
-
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.stub;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class RepoListFragmentTest extends BaseTest {
 
@@ -39,15 +35,14 @@ public class RepoListFragmentTest extends BaseTest {
         super.setUp();
         component.inject(this);
 
-        repoListFragment = new RepoListFragment();
-        mainActivity = Robolectric.setupActivity(MainActivity.class);
+        repoListFragment = new RepoListFragment_();
+        mainActivity = Robolectric.setupActivity(MainActivity_.class);
         repoListFragment.onCreate(null);
     }
 
     @Test
-    public void testOnCreateView(){
-        repoListFragment.onCreateView(LayoutInflater.from(mainActivity),
-                (ViewGroup) mainActivity.findViewById(R.id.main_frame), null);
+    public void testOnCreateOptionsMenu(){
+        repoListFragment.onCreateOptionsMenu(Shadows.shadowOf(mainActivity).getOptionsMenu(), mainActivity.getMenuInflater());
         verify(repoListPresenter).onCreate(repoListFragment, repoListFragment);
         verify(repoListPresenter).getRepoFromCash();
     }

@@ -3,12 +3,9 @@ package com.example.oxionaz.mvpproject.view.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -23,38 +20,42 @@ import com.example.oxionaz.mvpproject.presenter.RepoListPresenter;
 import com.example.oxionaz.mvpproject.view.ui.activities.ActivityCallback;
 import com.example.oxionaz.mvpproject.view.ui.adapters.RepoAdapter;
 import com.example.oxionaz.mvpproject.view.ui.fragments.vh.RepoListVH;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.OptionsMenuItem;
+import org.androidannotations.annotations.ViewById;
 import java.util.List;
 import javax.inject.Inject;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
+@EFragment(R.layout.fragment_repo_list)
+@OptionsMenu(R.menu.toolbar_menu)
 public class RepoListFragment extends BaseFragment implements RepoListFragmentView, EventBus {
 
     private ActivityCallback activityCallback;
     private RepoListVH repoListVH;
-    private MenuItem option_change;
 
     @Inject
     RepoListPresenter repoListPresenter;
 
-    @BindView(R.id.repo_list)
+    @ViewById
     RecyclerView repo_list;
 
-    @BindView(R.id.progress_bar)
+    @ViewById
     ProgressBar progress_bar;
 
-    @BindView(R.id.login_field)
+    @ViewById
     EditText login_field;
 
-    @BindView(R.id.confirm_button)
+    @ViewById
     Button confirm_button;
 
-    @BindView(R.id.error_text)
-    TextView error_text;
+    @ViewById
+    TextView error_text, info_text;
 
-    @BindView(R.id.info_text)
-    TextView info_text;
+    @OptionsMenuItem
+    MenuItem option_change;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,38 +63,23 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
         App.getAppComponent().inject(this);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_repo_list, container, false);
-        ButterKnife.bind(this, view);
-
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         repoListVH = new RepoListVH(getActivity(), repo_list, progress_bar, login_field, confirm_button, error_text, info_text, option_change);
         activityCallback = (ActivityCallback) getActivity();
         repoListPresenter.onCreate(this, this);
         repoListPresenter.getRepoFromCash();
-
-        return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.toolbar_menu, menu);
-        option_change = menu.findItem(R.id.option_change);
-        option_change.setOnMenuItemClickListener(menuItem -> {
-            option_change();
-            return true;
-        });
-    }
-
-    private void option_change(){
+    @OptionsItem
+    void option_change(){
         getActivity().setTitle(this.getString(R.string.app_name));
         repoListVH.onChangeClick();
         repoListPresenter.clearRepoCash();
     }
 
-    @OnClick(R.id.confirm_button)
+    @Click
     void confirm_button(){
         repoListPresenter.onSearchClick();
         repoListVH.onSearchCLick();
@@ -139,4 +125,5 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
     protected BasePresenter getPresenter() {
         return repoListPresenter;
     }
+
 }

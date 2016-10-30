@@ -8,9 +8,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import com.example.oxionaz.mvpproject.model.sources.db.models.Repository;
 import com.example.oxionaz.mvpproject.R;
-import com.example.oxionaz.mvpproject.view.ui.fragments.RepoInfoFragment;
-import com.example.oxionaz.mvpproject.view.ui.fragments.RepoListFragment;
+import com.example.oxionaz.mvpproject.view.ui.fragments.RepoInfoFragment_;
+import com.example.oxionaz.mvpproject.view.ui.fragments.RepoListFragment_;
+import org.androidannotations.annotations.EActivity;
 
+@EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity implements ActivityCallback {
 
     private static final String TAG = "INFO";
@@ -19,14 +21,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
-        if (savedInstanceState == null) replaceFragment(new RepoListFragment(), false);
+        if (savedInstanceState == null) replaceFragment(new RepoListFragment_(), false);
     }
 
     @Override
     public void startRepoInfoFragment(Repository repository) {
-        replaceFragment(RepoInfoFragment.newInstance(repository), true);
+        replaceFragment(RepoInfoFragment_.newInstance(repository), true);
     }
 
     private void replaceFragment(Fragment fragment, boolean addBackStack) {

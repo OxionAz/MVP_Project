@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.oxionaz.mvpproject.other.App;
@@ -19,28 +16,26 @@ import com.example.oxionaz.mvpproject.presenter.BasePresenter;
 import com.example.oxionaz.mvpproject.presenter.RepoInfoPresenter;
 import com.example.oxionaz.mvpproject.view.ui.adapters.BranchAdapter;
 import com.example.oxionaz.mvpproject.view.ui.adapters.ContributorAdapter;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
 import java.util.List;
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
+@EFragment(R.layout.fragment_repo_info)
 public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentView, EventBus {
 
     @Inject
     protected RepoInfoPresenter repoInfoPresenter;
 
-    @BindView(R.id.name)
+    @ViewById
     TextView name;
 
-    @BindView(R.id.branches)
-    RecyclerView branches;
-
-    @BindView(R.id.contributors)
-    RecyclerView contributors;
+    @ViewById
+    RecyclerView branches, contributors;
 
     public static RepoInfoFragment newInstance(Repository repository) {
-        RepoInfoFragment myFragment = new RepoInfoFragment();
+        RepoInfoFragment myFragment = new RepoInfoFragment_();
         Bundle args = new Bundle();
         args.putString("owner", repository.getOwner());
         args.putString("name", repository.getName());
@@ -59,20 +54,14 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
         else repoInfoPresenter.getInfoFromCash();
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_repo_info, container, false);
-        ButterKnife.bind(this, view);
-
+    @AfterViews
+    void ready(){
         branches.setHasFixedSize(true);
         contributors.setHasFixedSize(true);
         branches.setLayoutManager(new LinearLayoutManager(getContext()));
         contributors.setLayoutManager(new LinearLayoutManager(getContext()));
         getActivity().setTitle(getArguments().getString("owner"));
         name.setText(getArguments().getString("name"));
-
-        return view;
     }
 
     @Override
