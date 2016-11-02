@@ -36,5 +36,4 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
         if (addBackStack) transaction.addToBackStack(null);
         transaction.commit();
     }
-
 }

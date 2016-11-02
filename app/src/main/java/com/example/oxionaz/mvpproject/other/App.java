@@ -3,8 +3,10 @@ package com.example.oxionaz.mvpproject.other;
 import android.app.Application;
 import com.example.oxionaz.mvpproject.other.di.AppComponent;
 import com.example.oxionaz.mvpproject.other.di.DaggerAppComponent;
+import com.example.oxionaz.mvpproject.other.util.ConstManager;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.yandex.metrica.YandexMetrica;
 
 public class App extends Application {
 
@@ -13,6 +15,12 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Инициализация AppMetrica SDK
+        YandexMetrica.activate(getApplicationContext(), Const.YANDEX_API_KEY);
+        // Отслеживание активности пользователей
+        YandexMetrica.enableActivityAutoTracking(this);
+
         FlowManager.init(new FlowConfig.Builder(this).build());
         appComponent = buildComponent();
     }
