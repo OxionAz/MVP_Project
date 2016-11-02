@@ -16,7 +16,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        MultiDex.install(this);
 
         // Инициализация AppMetrica SDK
         YandexMetrica.activate(getApplicationContext(), Const.YANDEX_API_KEY);

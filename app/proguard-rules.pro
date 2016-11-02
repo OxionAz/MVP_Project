@@ -15,12 +15,23 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# retrofit
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
+
+# rx
+-keepclassmembers class rx.internal.util.unsafe.**
+
+# okio
+-dontwarn okio.**
+
+#
 -keepattributes Signature
 -keepattributes Exceptions
 -dontwarn java.lang.invoke.*
-#   yandex metrica
+
+# yandex metrica
 -keep class com.yandex.metrica.impl.* { *; }
 -dontwarn com.yandex.metrica.impl.*
 -keep class com.yandex.metrica.* { *; }
