@@ -1,6 +1,8 @@
 package com.example.oxionaz.mvpproject.other;
 
 import android.app.Application;
+import android.support.multidex.MultiDex;
+
 import com.example.oxionaz.mvpproject.other.di.AppComponent;
 import com.example.oxionaz.mvpproject.other.di.DaggerAppComponent;
 import com.example.oxionaz.mvpproject.other.util.ConstManager;
@@ -15,6 +17,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(this);
 
         // Инициализация AppMetrica SDK
         YandexMetrica.activate(getApplicationContext(), Const.YANDEX_API_KEY);
