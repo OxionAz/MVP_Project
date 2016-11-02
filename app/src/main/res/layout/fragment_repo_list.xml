@@ -4,14 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     tools:context=".view.ui.activities.MainActivity">
 
-    <ProgressBar
+    <RelativeLayout
         android:id="@+id/progress_bar"
         android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/gh_icon"
         android:layout_width="80dp"
-        android:layout_height="80dp"/>
+        android:layout_height="80dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:src="@drawable/github"/>
 
     <TextView
         android:id="@+id/error_text"

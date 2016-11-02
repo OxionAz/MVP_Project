@@ -18,6 +18,7 @@ public class MapperDTO {
             item.setOwner(object.getOwnerDTO().getLogin());
             item.setLanguage(object.getLanguage());
             item.setHtml_url(object.getHtmlUrl());
+            item.setDescription(object.getDescription());
             return item;
         } else return null;
     }

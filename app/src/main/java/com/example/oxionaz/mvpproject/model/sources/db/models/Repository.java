@@ -17,6 +17,9 @@ public class Repository extends BaseModel {
     private String name;
 
     @Column
+    private String description;
+
+    @Column
     private String owner;
 
     @Column
@@ -63,5 +66,13 @@ public class Repository extends BaseModel {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

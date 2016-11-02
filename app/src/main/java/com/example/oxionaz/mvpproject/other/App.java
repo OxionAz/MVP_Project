@@ -5,7 +5,6 @@ import android.support.multidex.MultiDex;
 
 import com.example.oxionaz.mvpproject.other.di.AppComponent;
 import com.example.oxionaz.mvpproject.other.di.DaggerAppComponent;
-import com.example.oxionaz.mvpproject.other.util.ConstManager;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.yandex.metrica.YandexMetrica;

@@ -8,7 +8,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.oxionaz.mvpproject.other.App;
@@ -43,7 +45,7 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
     RecyclerView repo_list;
 
     @ViewById
-    ProgressBar progress_bar;
+    RelativeLayout progress_bar;
 
     @ViewById
     EditText login_field;
@@ -53,6 +55,9 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
 
     @ViewById
     TextView error_text, info_text;
+
+    @ViewById
+    ImageView gh_icon;
 
     @OptionsMenuItem
     MenuItem option_change;
@@ -66,7 +71,8 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        repoListVH = new RepoListVH(getActivity(), repo_list, progress_bar, login_field, confirm_button, error_text, info_text, option_change);
+        repoListVH = new RepoListVH(getActivity(), repo_list, progress_bar, login_field,
+                confirm_button, error_text, info_text, option_change, gh_icon);
         activityCallback = (ActivityCallback) getActivity();
         repoListPresenter.onCreate(this, this);
         repoListPresenter.getRepoFromCash();
@@ -125,5 +131,4 @@ public class RepoListFragment extends BaseFragment implements RepoListFragmentVi
     protected BasePresenter getPresenter() {
         return repoListPresenter;
     }
-
 }

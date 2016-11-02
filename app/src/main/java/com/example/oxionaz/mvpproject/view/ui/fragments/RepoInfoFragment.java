@@ -1,9 +1,13 @@
 package com.example.oxionaz.mvpproject.view.ui.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.oxionaz.mvpproject.other.App;
@@ -17,6 +21,7 @@ import com.example.oxionaz.mvpproject.presenter.RepoInfoPresenter;
 import com.example.oxionaz.mvpproject.view.ui.adapters.BranchAdapter;
 import com.example.oxionaz.mvpproject.view.ui.adapters.ContributorAdapter;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import java.util.List;
@@ -29,7 +34,10 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
     protected RepoInfoPresenter repoInfoPresenter;
 
     @ViewById
-    TextView name;
+    TextView name, description;
+
+    @ViewById
+    Button link;
 
     @ViewById
     RecyclerView branches, contributors;
@@ -39,6 +47,8 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
         Bundle args = new Bundle();
         args.putString("owner", repository.getOwner());
         args.putString("name", repository.getName());
+        args.putString("desc", repository.getDescription());
+        args.putString("url", repository.getHtml_url());
         myFragment.setArguments(args);
         return myFragment;
     }
@@ -62,6 +72,16 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
         contributors.setLayoutManager(new LinearLayoutManager(getContext()));
         getActivity().setTitle(getArguments().getString("owner"));
         name.setText(getArguments().getString("name"));
+        if (getArguments().getString("desc") != null)
+            description.setText(getArguments().getString("desc"));
+        else description.setVisibility(View.GONE);
+    }
+
+    @Click
+    void link(){
+        Uri uriUrl = Uri.parse(getArguments().getString("url"));
+        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+        startActivity(launchBrowser);
     }
 
     @Override
@@ -95,5 +115,4 @@ public class RepoInfoFragment extends BaseFragment implements RepoInfoFragmentVi
     protected BasePresenter getPresenter() {
         return repoInfoPresenter;
     }
-
 }
