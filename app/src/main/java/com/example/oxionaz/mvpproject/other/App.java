@@ -1,8 +1,6 @@
 package com.example.oxionaz.mvpproject.other;
 
 import android.app.Application;
-import android.support.multidex.MultiDex;
-
 import com.example.oxionaz.mvpproject.other.di.AppComponent;
 import com.example.oxionaz.mvpproject.other.di.DaggerAppComponent;
 import com.raizlabs.android.dbflow.config.FlowConfig;

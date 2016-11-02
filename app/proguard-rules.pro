@@ -20,8 +20,8 @@
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 
-# rx
--keepclassmembers class rx.internal.util.unsafe.**
+# db-flow
+-keep class * extends com.raizlabs.android.dbflow.config.DatabaseHolder { *; }
 
 # okio
 -dontwarn okio.**
